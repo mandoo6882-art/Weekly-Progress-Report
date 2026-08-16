@@ -1,3 +1,11 @@
+const NUMERIC_RE = /^-?[\d,]+(\.\d+)?%?$/;
+
+function isNumericLike(v) {
+  if (typeof v === 'number') return true;
+  if (typeof v === 'string') return NUMERIC_RE.test(v.trim());
+  return false;
+}
+
 export default function DataTable({ title, rows }) {
   if (!rows || !rows.length) return null;
 
@@ -9,11 +17,14 @@ export default function DataTable({ title, rows }) {
           <tbody>
             {rows.map((row, ri) => (
               <tr key={ri} className={ri === 0 ? 'first-row' : ''}>
-                {row.map((cell, ci) => (
-                  <td key={ci}>
-                    {cell === null || cell === undefined || cell === '' ? '' : String(cell)}
-                  </td>
-                ))}
+                {row.map((cell, ci) => {
+                  const display = cell === null || cell === undefined || cell === '' ? '' : String(cell);
+                  return (
+                    <td key={ci} className={isNumericLike(cell) ? 'num-cell' : ''}>
+                      {display}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

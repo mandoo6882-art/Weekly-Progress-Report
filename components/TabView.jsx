@@ -40,6 +40,10 @@ export default function TabView({ tabs }) {
         )}
       </div>
 
+      {data.cutoffDate ? (
+        <div className="cutoff-banner">Cut-off date: {data.cutoffDate}</div>
+      ) : null}
+
       {active.note ? (
         <div className="note-display">
           <strong>담당자 노트</strong>
