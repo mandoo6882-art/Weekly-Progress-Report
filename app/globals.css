@@ -145,6 +145,7 @@ body {
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: auto;
   font-size: 11.5px;
 }
 
@@ -153,6 +154,9 @@ td {
   border: 1px solid #dde1e6;
   white-space: nowrap;
   line-height: 1.4;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 tr:not(.header-row):nth-child(even) td {
@@ -165,16 +169,19 @@ tr.header-row td {
   color: #1e3a8a;
   border: 1px solid #93c5fd;
   white-space: normal;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 여러 열/행을 병합한 셀(예: 표 제목)은 가운데 정렬 + 조금 더 크게 */
+tr.header-row td[colspan] {
+  font-size: 13px;
 }
 
 td.num-cell {
   text-align: right;
   font-variant-numeric: tabular-nums;
   color: #1f2937;
-}
-
-tr.header-row td.num-cell {
-  text-align: center;
 }
 
 tbody tr:not(.header-row):hover td {
