@@ -55,6 +55,13 @@ export default function TabView({ tabs }) {
       ) : null}
 
       {blocks.map((b, i) => {
+        if (b.type === 'heading') {
+          return (
+            <h3 key={i} className="section-heading">
+              {b.text}
+            </h3>
+          );
+        }
         if (b.type === 'chart') {
           return (
             <div key={i} className="chart-box standalone-chart">
