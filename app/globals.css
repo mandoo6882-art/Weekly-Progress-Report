@@ -191,6 +191,22 @@ td.num-cell {
   color: #1f2937;
 }
 
+/* 마지막 열(예: Remarks)은 내용이 길면 줄바꿈, 그 외 열은 계속 한 줄(nowrap) 유지 */
+tbody tr:not(.header-row) td:last-child {
+  white-space: normal;
+  max-width: 380px;
+}
+
+td.variance-up {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+td.variance-down {
+  color: #dc2626;
+  font-weight: 700;
+}
+
 tbody tr:not(.header-row):hover td {
   background: #eef2ff;
 }

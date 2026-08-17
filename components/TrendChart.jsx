@@ -52,6 +52,15 @@ export default function TrendChart({ title, categories, series }) {
     plugins: {
       title: { display: !!title, text: title, font: { size: 13 } },
       legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            const v = ctx.parsed?.y;
+            if (typeof v !== 'number') return `${ctx.dataset.label}: -`;
+            return `${ctx.dataset.label}: ${(v * 100).toFixed(2)}%`;
+          },
+        },
+      },
     },
     scales: {
       y: {

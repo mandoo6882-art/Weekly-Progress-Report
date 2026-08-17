@@ -39,12 +39,13 @@ export default function DataTable({ title, rows, headerRowCount = 1 }) {
                           cell.value === null || cell.value === undefined || cell.value === ''
                             ? ''
                             : String(cell.value);
+                        const cls = [isNumericLike(cell.value) ? 'num-cell' : '', cell.cls || ''].filter(Boolean).join(' ');
                         return (
                           <td
                             key={ci}
                             colSpan={cell.colSpan > 1 ? cell.colSpan : undefined}
                             rowSpan={cell.rowSpan > 1 ? cell.rowSpan : undefined}
-                            className={isNumericLike(cell.value) ? 'num-cell' : ''}
+                            className={cls}
                           >
                             {display}
                           </td>
