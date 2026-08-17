@@ -109,6 +109,13 @@ body {
   color: #1a1a1a;
 }
 
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px;
+}
+
 .cutoff-banner {
   display: inline-block;
   background: #eff6ff;

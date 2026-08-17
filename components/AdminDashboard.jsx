@@ -41,7 +41,7 @@ function TabCard({ cfg, initial }) {
         body: JSON.stringify({
           sourceFile: result.sourceFile,
           asOf: result.asOf,
-          data: { blocks: result.blocks, cutoffDate: result.cutoffDate },
+          data: { blocks: result.blocks, cutoffDate: result.cutoffDate, title: result.title },
         }),
       });
 

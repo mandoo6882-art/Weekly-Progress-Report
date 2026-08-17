@@ -41,6 +41,8 @@ export default function TabView({ tabs }) {
         )}
       </div>
 
+      {data.title ? <h2 className="section-title">{data.title}</h2> : null}
+
       {data.cutoffDate ? (
         <div className="cutoff-banner">Cut-off date: {data.cutoffDate}</div>
       ) : null}
