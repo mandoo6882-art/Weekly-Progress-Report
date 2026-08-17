@@ -30,8 +30,14 @@ ChartJS.register(
 
 const COLORS = ['#3b82f6', '#f59e0b', '#ef4444', '#10b981'];
 
-export default function TrendChart({ title, categories, series }) {
+export default function TrendChart({ title, categories, series, format = 'percent' }) {
   if (!categories?.length || !series?.length) return null;
+
+  const formatValue = (v) => {
+    if (typeof v !== 'number') return '-';
+    if (format === 'integer') return Math.round(v).toLocaleString('en-US');
+    return `${(v * 100).toFixed(1)}%`;
+  };
 
   const hasBar = series.some((s) => s.type === 'bar');
   const hasLine = series.some((s) => s.type !== 'bar');
@@ -59,11 +65,7 @@ export default function TrendChart({ title, categories, series }) {
       legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
       tooltip: {
         callbacks: {
-          label: (ctx) => {
-            const v = ctx.parsed?.y;
-            if (typeof v !== 'number') return `${ctx.dataset.label}: -`;
-            return `${ctx.dataset.label}: ${(v * 100).toFixed(2)}%`;
-          },
+          label: (ctx) => `${ctx.dataset.label}: ${formatValue(ctx.parsed?.y)}`,
         },
       },
     },
@@ -72,10 +74,10 @@ export default function TrendChart({ title, categories, series }) {
         type: 'linear',
         position: 'left',
         ticks: {
-          callback: (v) => `${(v * 100).toFixed(1)}%`,
+          callback: (v) => formatValue(v),
           font: { size: 10 },
         },
-        title: useDualAxis ? { display: true, text: '누적(%)', font: { size: 10 } } : undefined,
+        title: useDualAxis ? { display: true, text: format === 'integer' ? '누적' : '누적(%)', font: { size: 10 } } : undefined,
       },
       ...(useDualAxis
         ? {
@@ -83,11 +85,11 @@ export default function TrendChart({ title, categories, series }) {
               type: 'linear',
               position: 'right',
               ticks: {
-                callback: (v) => `${(v * 100).toFixed(1)}%`,
+                callback: (v) => formatValue(v),
                 font: { size: 10 },
               },
               grid: { drawOnChartArea: false },
-              title: { display: true, text: '증분(%)', font: { size: 10 } },
+              title: { display: true, text: format === 'integer' ? '증분' : '증분(%)', font: { size: 10 } },
             },
           }
         : {}),

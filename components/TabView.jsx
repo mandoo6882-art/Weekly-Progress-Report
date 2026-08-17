@@ -58,7 +58,7 @@ export default function TabView({ tabs }) {
         if (b.type === 'chart') {
           return (
             <div key={i} className="chart-box standalone-chart">
-              <TrendChart title={b.title} categories={b.categories} series={b.series} />
+              <TrendChart title={b.title} categories={b.categories} series={b.series} format={b.format || 'percent'} />
             </div>
           );
         }
