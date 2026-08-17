@@ -33,6 +33,10 @@ const COLORS = ['#3b82f6', '#f59e0b', '#ef4444', '#10b981'];
 export default function TrendChart({ title, categories, series }) {
   if (!categories?.length || !series?.length) return null;
 
+  const hasBar = series.some((s) => s.type === 'bar');
+  const hasLine = series.some((s) => s.type !== 'bar');
+  const useDualAxis = hasBar && hasLine;
+
   const data = {
     labels: categories,
     datasets: series.map((s, i) => ({
@@ -43,6 +47,7 @@ export default function TrendChart({ title, categories, series }) {
       borderColor: COLORS[i % COLORS.length],
       tension: 0.3,
       spanGaps: true,
+      yAxisID: useDualAxis && s.type === 'bar' ? 'y1' : 'y',
     })),
   };
 
@@ -64,17 +69,34 @@ export default function TrendChart({ title, categories, series }) {
     },
     scales: {
       y: {
+        type: 'linear',
+        position: 'left',
         ticks: {
           callback: (v) => `${(v * 100).toFixed(1)}%`,
           font: { size: 10 },
         },
+        title: useDualAxis ? { display: true, text: '누적(%)', font: { size: 10 } } : undefined,
       },
+      ...(useDualAxis
+        ? {
+            y1: {
+              type: 'linear',
+              position: 'right',
+              ticks: {
+                callback: (v) => `${(v * 100).toFixed(1)}%`,
+                font: { size: 10 },
+              },
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: '증분(%)', font: { size: 10 } },
+            },
+          }
+        : {}),
       x: { ticks: { font: { size: 10 } } },
     },
   };
 
   return (
-    <div style={{ height: 260 }}>
+    <div style={{ height: 130 }}>
       <Chart type="bar" data={data} options={options} />
     </div>
   );

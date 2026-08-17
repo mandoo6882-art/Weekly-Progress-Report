@@ -16,10 +16,11 @@ function isMergeGrid(rows) {
   );
 }
 
-export default function DataTable({ title, rows, headerRowCount = 1 }) {
+export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [] }) {
   if (!rows || !rows.length) return null;
 
   const mergeMode = isMergeGrid(rows);
+  const narrowSet = new Set(narrowCols);
 
   return (
     <div className="data-table-block">
@@ -54,7 +55,11 @@ export default function DataTable({ title, rows, headerRowCount = 1 }) {
                     : row.map((cell, ci) => {
                         const display = cell === null || cell === undefined || cell === '' ? '' : String(cell);
                         return (
-                          <td key={ci} className={isNumericLike(cell) ? 'num-cell' : ''}>
+                          <td
+                            key={ci}
+                            className={isNumericLike(cell) ? 'num-cell' : ''}
+                            style={narrowSet.has(ci) ? { maxWidth: 130, whiteSpace: 'normal' } : undefined}
+                          >
                             {display}
                           </td>
                         );
