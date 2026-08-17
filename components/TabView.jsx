@@ -63,7 +63,14 @@ export default function TabView({ tabs }) {
           );
         }
         return (
-          <DataTable key={i} title={b.title} rows={b.rows} headerRowCount={b.headerRowCount ?? 1} narrowCols={b.narrowCols || []} />
+          <DataTable
+            key={i}
+            title={b.title}
+            rows={b.rows}
+            headerRowCount={b.headerRowCount ?? 1}
+            narrowCols={b.narrowCols || []}
+            wideCols={b.wideCols || []}
+          />
         );
       })}
     </div>

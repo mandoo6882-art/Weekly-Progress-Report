@@ -95,8 +95,10 @@ export default function TrendChart({ title, categories, series }) {
     },
   };
 
+  const chartHeight = hasBar ? 260 : 130; // 콤보(막대 포함) 차트는 원래 크기, Variance 단독 차트만 절반 크기
+
   return (
-    <div style={{ height: 130 }}>
+    <div style={{ height: chartHeight }}>
       <Chart type="bar" data={data} options={options} />
     </div>
   );

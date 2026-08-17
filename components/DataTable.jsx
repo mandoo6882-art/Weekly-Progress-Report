@@ -16,11 +16,17 @@ function isMergeGrid(rows) {
   );
 }
 
-export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [] }) {
+export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [] }) {
   if (!rows || !rows.length) return null;
 
   const mergeMode = isMergeGrid(rows);
   const narrowSet = new Set(narrowCols);
+  const wideSet = new Set(wideCols);
+  function colStyle(ci) {
+    if (narrowSet.has(ci)) return { maxWidth: 130, whiteSpace: 'normal' };
+    if (wideSet.has(ci)) return { maxWidth: 520, whiteSpace: 'normal' };
+    return undefined;
+  }
 
   return (
     <div className="data-table-block">
@@ -47,6 +53,7 @@ export default function DataTable({ title, rows, headerRowCount = 1, narrowCols 
                             colSpan={cell.colSpan > 1 ? cell.colSpan : undefined}
                             rowSpan={cell.rowSpan > 1 ? cell.rowSpan : undefined}
                             className={cls}
+                            style={colStyle(ci)}
                           >
                             {display}
                           </td>
@@ -58,7 +65,7 @@ export default function DataTable({ title, rows, headerRowCount = 1, narrowCols 
                           <td
                             key={ci}
                             className={isNumericLike(cell) ? 'num-cell' : ''}
-                            style={narrowSet.has(ci) ? { maxWidth: 130, whiteSpace: 'normal' } : undefined}
+                            style={colStyle(ci)}
                           >
                             {display}
                           </td>
