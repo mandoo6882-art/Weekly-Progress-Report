@@ -12,7 +12,8 @@ export default function TabView({ tabs }) {
   }
 
   const active = tabs.find((t) => t.id === activeId) || tabs[0];
-  const data = active?.data || { tables: [], charts: [] };
+  const data = active?.data || { blocks: [] };
+  const blocks = data.blocks || [];
 
   return (
     <div>
@@ -51,19 +52,18 @@ export default function TabView({ tabs }) {
         </div>
       ) : null}
 
-      {data.tables?.map((t, i) => (
-        <DataTable key={i} title={t.title} rows={t.rows} />
-      ))}
-
-      {data.charts?.length > 0 && (
-        <div className="chart-grid">
-          {data.charts.map((c, i) => (
-            <div key={i} className="chart-box">
-              <TrendChart title={c.title} categories={c.categories} series={c.series} />
+      {blocks.map((b, i) => {
+        if (b.type === 'chart') {
+          return (
+            <div key={i} className="chart-box standalone-chart">
+              <TrendChart title={b.title} categories={b.categories} series={b.series} />
             </div>
-          ))}
-        </div>
-      )}
+          );
+        }
+        return (
+          <DataTable key={i} title={b.title} rows={b.rows} headerRowCount={b.headerRowCount ?? 1} />
+        );
+      })}
     </div>
   );
 }

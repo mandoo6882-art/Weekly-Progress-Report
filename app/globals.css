@@ -133,39 +133,38 @@ body {
 }
 
 .table-wrap {
-  overflow: auto;
+  /* 세로 스크롤은 두지 않고(한눈에 보이도록), 열이 너무 많을 때만 가로 스크롤 허용 */
+  overflow-x: auto;
+  overflow-y: visible;
   background: white;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  max-height: 60vh;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 table {
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
   width: 100%;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 td {
-  padding: 7px 12px;
-  border-bottom: 1px solid #eef0f2;
+  padding: 5px 9px;
+  border: 1px solid #dde1e6;
   white-space: nowrap;
+  line-height: 1.4;
 }
 
-tr:not(.first-row):nth-child(even) td {
-  background: #fafbfc;
+tr:not(.header-row):nth-child(even) td {
+  background: #f8fafc;
 }
 
-tr.first-row td {
+tr.header-row td {
   font-weight: 700;
-  background: #eef2ff;
-  color: #312e81;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  border-bottom: 2px solid #c7d2fe;
+  background: #dbeafe;
+  color: #1e3a8a;
+  border: 1px solid #93c5fd;
+  white-space: normal;
 }
 
 td.num-cell {
@@ -174,12 +173,16 @@ td.num-cell {
   color: #1f2937;
 }
 
-tbody tr:hover td {
-  background: #f3f4f6;
+tr.header-row td.num-cell {
+  text-align: center;
 }
 
-tbody tr.first-row:hover td {
+tbody tr:not(.header-row):hover td {
   background: #eef2ff;
+}
+
+.standalone-chart {
+  margin-bottom: 4px;
 }
 
 .chart-grid {

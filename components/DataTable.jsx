@@ -6,7 +6,7 @@ function isNumericLike(v) {
   return false;
 }
 
-export default function DataTable({ title, rows }) {
+export default function DataTable({ title, rows, headerRowCount = 1 }) {
   if (!rows || !rows.length) return null;
 
   return (
@@ -16,7 +16,7 @@ export default function DataTable({ title, rows }) {
         <table>
           <tbody>
             {rows.map((row, ri) => (
-              <tr key={ri} className={ri === 0 ? 'first-row' : ''}>
+              <tr key={ri} className={ri < headerRowCount ? 'header-row' : ''}>
                 {row.map((cell, ci) => {
                   const display = cell === null || cell === undefined || cell === '' ? '' : String(cell);
                   return (
