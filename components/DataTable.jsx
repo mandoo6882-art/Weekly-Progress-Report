@@ -60,7 +60,13 @@ export default function DataTable({
   const narrowSet = new Set(narrowCols);
   const wideSet = new Set(wideCols);
   function colStyle(ci) {
-    if (colMaxWidths[ci] !== undefined) return { maxWidth: colMaxWidths[ci], whiteSpace: 'normal' };
+    // colMaxWidths: 줄바꿈 없이 한 줄로 보여주되(내용이 길면 표 전체가 넓어져서
+    // 가로 스크롤이 생기도록) 지정한 폭만큼은 확실히 확보합니다(width/minWidth).
+    if (colMaxWidths[ci] !== undefined) {
+      const w = colMaxWidths[ci];
+      // 전역 td 규칙(max-width:260px, overflow:hidden)을 이 열에서만 해제합니다.
+      return { width: w, minWidth: w, maxWidth: 'none', whiteSpace: 'nowrap', overflow: 'visible' };
+    }
     if (narrowSet.has(ci)) return { maxWidth: 130, whiteSpace: 'normal' };
     if (wideSet.has(ci)) return { maxWidth: 1040, whiteSpace: 'normal' };
     return undefined;
