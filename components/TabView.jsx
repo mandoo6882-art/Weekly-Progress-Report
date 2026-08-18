@@ -82,6 +82,8 @@ export default function TabView({ tabs }) {
             colWidths={b.colWidths || []}
             filterColumn={b.filterColumn ?? null}
             filterLabel={b.filterLabel || ''}
+            colMaxWidths={b.colMaxWidths || {}}
+            scrollHeight={b.scrollHeight ?? null}
           />
         );
       })}

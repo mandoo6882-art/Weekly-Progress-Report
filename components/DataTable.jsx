@@ -37,6 +37,8 @@ export default function DataTable({
   colWidths = [],
   filterColumn = null,
   filterLabel = '',
+  colMaxWidths = {},
+  scrollHeight = null,
 }) {
   const [selected, setSelected] = useState('ALL');
 
@@ -58,6 +60,7 @@ export default function DataTable({
   const narrowSet = new Set(narrowCols);
   const wideSet = new Set(wideCols);
   function colStyle(ci) {
+    if (colMaxWidths[ci] !== undefined) return { maxWidth: colMaxWidths[ci], whiteSpace: 'normal' };
     if (narrowSet.has(ci)) return { maxWidth: 130, whiteSpace: 'normal' };
     if (wideSet.has(ci)) return { maxWidth: 1040, whiteSpace: 'normal' };
     return undefined;
@@ -89,7 +92,10 @@ export default function DataTable({
           )}
         </div>
       )}
-      <div className="table-wrap">
+      <div
+        className={`table-wrap${scrollHeight ? ' has-scroll' : ''}`}
+        style={scrollHeight ? { maxHeight: scrollHeight, overflowY: 'auto' } : undefined}
+      >
         <table className={tableClassName || undefined}>
           {colWidths.length > 0 && (
             <colgroup>

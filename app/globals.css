@@ -221,6 +221,17 @@ tr.header-row td {
   vertical-align: middle;
 }
 
+/* 세로 스크롤이 있는 표: 스크롤해도 헤더 행이 위에 고정되도록 */
+.table-wrap.has-scroll {
+  overflow-x: auto;
+}
+
+.table-wrap.has-scroll tr.header-row td {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 /* 여러 열/행을 병합한 셀(예: 표 제목)은 가운데 정렬 + 조금 더 크게 */
 tr.header-row td[colspan] {
   font-size: 13px;
