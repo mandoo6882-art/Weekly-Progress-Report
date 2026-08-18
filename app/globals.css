@@ -201,9 +201,10 @@ td.num-cell {
   color: #1f2937;
 }
 
-/* Equipment Control Register 표: 엑셀 원본과 비슷한 녹색 계열 */
+/* Equipment Control Register 표: 엑셀 원본과 비슷한 녹색 계열.
+   (일반 줄무늬 규칙(nth-child)보다 항상 우선하도록 !important 사용) */
 tr.eqr-head td {
-  background: #b6d7a8;
+  background: #b6d7a8 !important;
   color: #274e13;
   font-weight: 700;
   text-align: center;
@@ -213,15 +214,27 @@ tr.eqr-head td {
 }
 
 tr.eqr-total td {
-  background: #d9ead3;
+  background: #d9ead3 !important;
   color: #274e13;
   font-weight: 700;
 }
 
 tr.eqr-grand-total td {
-  background: #93c47d;
+  background: #93c47d !important;
   color: #1b3d0f;
   font-weight: 800;
+}
+
+/* Equipment Control Register 표: 열이 많아(20열) 스크롤 없이 페이지 폭에 맞추기 위해
+   글자/여백을 촘촘하게 하고 열 너비를 고정 배분합니다. */
+table.eqr-table {
+  table-layout: fixed;
+  font-size: 10px;
+  width: 100%;
+}
+table.eqr-table td {
+  padding: 3px 4px;
+  overflow-wrap: break-word;
 }
 
 td.variance-up {

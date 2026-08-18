@@ -16,7 +16,7 @@ function isMergeGrid(rows) {
   );
 }
 
-export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [], rowClasses = [] }) {
+export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [], rowClasses = [], tableClassName = '' }) {
   if (!rows || !rows.length) return null;
 
   const mergeMode = isMergeGrid(rows);
@@ -32,7 +32,7 @@ export default function DataTable({ title, rows, headerRowCount = 1, narrowCols 
     <div className="data-table-block">
       {title && <h3 className="table-title">{title}</h3>}
       <div className="table-wrap">
-        <table>
+        <table className={tableClassName || undefined}>
           <tbody>
             {rows.map((row, ri) => {
               if (mergeMode && !row.some((c) => !c.hidden)) return null; // 완전히 가려진 행은 렌더링 안 함

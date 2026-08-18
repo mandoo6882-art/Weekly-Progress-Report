@@ -78,6 +78,7 @@ export default function TabView({ tabs }) {
             narrowCols={b.narrowCols || []}
             wideCols={b.wideCols || []}
             rowClasses={b.rowClasses || []}
+            tableClassName={b.tableClassName || ''}
           />
         );
       })}
