@@ -59,7 +59,7 @@ export default function DataTable({
   const wideSet = new Set(wideCols);
   function colStyle(ci) {
     if (narrowSet.has(ci)) return { maxWidth: 130, whiteSpace: 'normal' };
-    if (wideSet.has(ci)) return { maxWidth: 520, whiteSpace: 'normal' };
+    if (wideSet.has(ci)) return { maxWidth: 1040, whiteSpace: 'normal' };
     return undefined;
   }
 
