@@ -83,6 +83,7 @@ export default function TabView({ tabs }) {
             filterColumn={b.filterColumn ?? null}
             filterLabel={b.filterLabel || ''}
             colMaxWidths={b.colMaxWidths || {}}
+            wrapColWidths={b.wrapColWidths || {}}
             scrollHeight={b.scrollHeight ?? null}
           />
         );

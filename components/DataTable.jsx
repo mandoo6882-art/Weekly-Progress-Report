@@ -38,6 +38,7 @@ export default function DataTable({
   filterColumn = null,
   filterLabel = '',
   colMaxWidths = {},
+  wrapColWidths = {},
   scrollHeight = null,
 }) {
   const [selected, setSelected] = useState('ALL');
@@ -66,6 +67,11 @@ export default function DataTable({
       const w = colMaxWidths[ci];
       // 전역 td 규칙(max-width:260px, overflow:hidden)을 이 열에서만 해제합니다.
       return { width: w, minWidth: w, maxWidth: 'none', whiteSpace: 'nowrap', overflow: 'visible' };
+    }
+    // wrapColWidths: 지정한 폭 안에서 줄바꿈되도록(가로 스크롤 대신 셀 안에서 2~3줄로 접힘).
+    if (wrapColWidths[ci] !== undefined) {
+      const w = wrapColWidths[ci];
+      return { width: w, maxWidth: w, whiteSpace: 'normal' };
     }
     if (narrowSet.has(ci)) return { maxWidth: 130, whiteSpace: 'normal' };
     if (wideSet.has(ci)) return { maxWidth: 1040, whiteSpace: 'normal' };
