@@ -77,6 +77,7 @@ export default function TabView({ tabs }) {
             headerRowCount={b.headerRowCount ?? 1}
             narrowCols={b.narrowCols || []}
             wideCols={b.wideCols || []}
+            rowClasses={b.rowClasses || []}
           />
         );
       })}

@@ -201,6 +201,29 @@ td.num-cell {
   color: #1f2937;
 }
 
+/* Equipment Control Register 표: 엑셀 원본과 비슷한 녹색 계열 */
+tr.eqr-head td {
+  background: #b6d7a8;
+  color: #274e13;
+  font-weight: 700;
+  text-align: center;
+  white-space: normal;
+  vertical-align: middle;
+  border: 1px solid #93c47d;
+}
+
+tr.eqr-total td {
+  background: #d9ead3;
+  color: #274e13;
+  font-weight: 700;
+}
+
+tr.eqr-grand-total td {
+  background: #93c47d;
+  color: #1b3d0f;
+  font-weight: 800;
+}
+
 td.variance-up {
   color: #1d4ed8;
   font-weight: 700;

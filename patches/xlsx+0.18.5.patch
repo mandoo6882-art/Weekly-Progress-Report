@@ -1,0 +1,26 @@
+diff --git a/node_modules/xlsx/xlsx.js b/node_modules/xlsx/xlsx.js
+index e61c7cc..e7fc002 100644
+--- a/node_modules/xlsx/xlsx.js
++++ b/node_modules/xlsx/xlsx.js
+@@ -16791,7 +16791,7 @@ function parse_BrtName(data, length, opts) {
+ 	data.l += 1; //var chKey = data.read_shift(1);
+ 	var itab = data.read_shift(4);
+ 	var name = parse_XLNameWideString(data);
+-	var formula = parse_XLSBNameParsedFormula(data, 0, opts);
++	var formula; try { formula = parse_XLSBNameParsedFormula(data, 0, opts); } catch(e) { formula = [[], '']; }
+ 	var comment = parse_XLNullableWideString(data);
+ 	//if(0 /* fProc */) {
+ 		// unusedstring1: XLNullableWideString
+diff --git a/node_modules/xlsx/xlsx.mjs b/node_modules/xlsx/xlsx.mjs
+index ea75371..860c832 100644
+--- a/node_modules/xlsx/xlsx.mjs
++++ b/node_modules/xlsx/xlsx.mjs
+@@ -16887,7 +16887,7 @@ function parse_BrtName(data, length, opts) {
+ 	data.l += 1; //var chKey = data.read_shift(1);
+ 	var itab = data.read_shift(4);
+ 	var name = parse_XLNameWideString(data);
+-	var formula = parse_XLSBNameParsedFormula(data, 0, opts);
++	var formula; try { formula = parse_XLSBNameParsedFormula(data, 0, opts); } catch(e) { formula = [[], '']; }
+ 	var comment = parse_XLNullableWideString(data);
+ 	//if(0 /* fProc */) {
+ 		// unusedstring1: XLNullableWideString

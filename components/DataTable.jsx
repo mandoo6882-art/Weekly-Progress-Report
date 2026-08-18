@@ -16,7 +16,7 @@ function isMergeGrid(rows) {
   );
 }
 
-export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [] }) {
+export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [], rowClasses = [] }) {
   if (!rows || !rows.length) return null;
 
   const mergeMode = isMergeGrid(rows);
@@ -37,8 +37,9 @@ export default function DataTable({ title, rows, headerRowCount = 1, narrowCols 
             {rows.map((row, ri) => {
               if (mergeMode && !row.some((c) => !c.hidden)) return null; // 완전히 가려진 행은 렌더링 안 함
 
+              const trCls = [ri < headerRowCount ? 'header-row' : '', rowClasses[ri] || ''].filter(Boolean).join(' ');
               return (
-                <tr key={ri} className={ri < headerRowCount ? 'header-row' : ''}>
+                <tr key={ri} className={trCls}>
                   {mergeMode
                     ? row.map((cell, ci) => {
                         if (cell.hidden) return null;
