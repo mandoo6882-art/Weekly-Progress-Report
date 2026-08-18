@@ -149,6 +149,37 @@ body {
   margin: 0 0 8px;
 }
 
+.table-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+
+.table-title-row .table-title {
+  margin: 0;
+}
+
+.table-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.table-filter select {
+  padding: 5px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 12px;
+  background: white;
+  color: #111827;
+}
+
 .table-wrap {
   /* 세로 스크롤은 두지 않고(한눈에 보이도록), 열이 너무 많을 때만 가로 스크롤 허용 */
   overflow-x: auto;

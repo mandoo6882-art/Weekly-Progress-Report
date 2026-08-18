@@ -1,3 +1,7 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+
 const NUMERIC_RE = /^-?[\d,]+(\.\d+)?%?$/;
 
 function isNumericLike(v) {
@@ -16,10 +20,41 @@ function isMergeGrid(rows) {
   );
 }
 
-export default function DataTable({ title, rows, headerRowCount = 1, narrowCols = [], wideCols = [], rowClasses = [], tableClassName = '' }) {
+function cellText(cell, mergeMode) {
+  const v = mergeMode ? cell?.value : cell;
+  if (v === null || v === undefined) return '';
+  return String(v).trim();
+}
+
+export default function DataTable({
+  title,
+  rows,
+  headerRowCount = 1,
+  narrowCols = [],
+  wideCols = [],
+  rowClasses = [],
+  tableClassName = '',
+  colWidths = [],
+  filterColumn = null,
+  filterLabel = '',
+}) {
+  const [selected, setSelected] = useState('ALL');
+
+  const mergeMode = isMergeGrid(rows || []);
+
+  const filterOptions = useMemo(() => {
+    if (filterColumn === null || !rows) return [];
+    const set = new Set();
+    rows.forEach((row, ri) => {
+      if (ri < headerRowCount) return;
+      const v = cellText(row[filterColumn], mergeMode);
+      if (v) set.add(v);
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'ko'));
+  }, [rows, filterColumn, headerRowCount, mergeMode]);
+
   if (!rows || !rows.length) return null;
 
-  const mergeMode = isMergeGrid(rows);
   const narrowSet = new Set(narrowCols);
   const wideSet = new Set(wideCols);
   function colStyle(ci) {
@@ -28,13 +63,43 @@ export default function DataTable({ title, rows, headerRowCount = 1, narrowCols 
     return undefined;
   }
 
+  const visibleRows = rows.filter((row, ri) => {
+    if (ri < headerRowCount) return true;
+    if (filterColumn === null || selected === 'ALL') return true;
+    return cellText(row[filterColumn], mergeMode) === selected;
+  });
+
   return (
     <div className="data-table-block">
-      {title && <h3 className="table-title">{title}</h3>}
+      {(title || filterOptions.length > 1) && (
+        <div className="table-title-row">
+          {title && <h3 className="table-title">{title}</h3>}
+          {filterOptions.length > 1 && (
+            <label className="table-filter">
+              {filterLabel || '필터'}:
+              <select value={selected} onChange={(e) => setSelected(e.target.value)}>
+                <option value="ALL">전체</option>
+                {filterOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+        </div>
+      )}
       <div className="table-wrap">
         <table className={tableClassName || undefined}>
+          {colWidths.length > 0 && (
+            <colgroup>
+              {colWidths.map((w, i) => (
+                <col key={i} style={{ width: `${w}%` }} />
+              ))}
+            </colgroup>
+          )}
           <tbody>
-            {rows.map((row, ri) => {
+            {visibleRows.map((row, ri) => {
               if (mergeMode && !row.some((c) => !c.hidden)) return null; // 완전히 가려진 행은 렌더링 안 함
 
               const trCls = [ri < headerRowCount ? 'header-row' : '', rowClasses[ri] || ''].filter(Boolean).join(' ');

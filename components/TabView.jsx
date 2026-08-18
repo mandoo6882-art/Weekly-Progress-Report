@@ -79,6 +79,9 @@ export default function TabView({ tabs }) {
             wideCols={b.wideCols || []}
             rowClasses={b.rowClasses || []}
             tableClassName={b.tableClassName || ''}
+            colWidths={b.colWidths || []}
+            filterColumn={b.filterColumn ?? null}
+            filterLabel={b.filterLabel || ''}
           />
         );
       })}
