@@ -7,10 +7,11 @@ import { useMemo } from 'react';
 // 화면에 고정(sticky)되어, 오른쪽으로 스크롤해서 달을 넘겨봐도 어떤 작업의 bar인지 항상 보입니다.
 // Plan/Actual(또는 Plan/Forecast/Actual) bar는 같은 행 안에서 위아래로 쌓아(stacked) 그립니다.
 
-const MONTH_WIDTH = 68;
+const MONTH_WIDTH = 34;
 const BAR_H = 13;
 const BAR_GAP = 3;
 const ROW_PAD = 6;
+const SCHEDULE_MAX_HEIGHT = 560;
 
 function startOfMonthUTC(d) {
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1));
@@ -87,7 +88,17 @@ export default function CriticalPathSchedule({ title, columns = [], rows = [], l
   return (
     <div className="cp-sched-wrap">
       {title && <p className="table-title">{title}</p>}
-      <div className="cp-sched-scroll">
+      {legend.length > 0 && (
+        <div className="cp-gantt-legend cp-gantt-legend-top">
+          {legend.map((l, i) => (
+            <span key={i} className="cp-gantt-legend-item">
+              <span className="cp-gantt-legend-dot" style={{ background: l.color }} />
+              {l.label}
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="cp-sched-scroll" style={{ maxHeight: SCHEDULE_MAX_HEIGHT }}>
         <div style={{ width: labelWidth + totalTrackWidth }}>
           <div className="cp-sched-row cp-sched-header-row">
             <div className="cp-sched-sticky cp-sched-head" style={{ width: labelWidth }}>
@@ -124,15 +135,19 @@ export default function CriticalPathSchedule({ title, columns = [], rows = [], l
             const bars = r.bars || [];
             const rowH = Math.max(26, bars.length * (BAR_H + BAR_GAP) + ROW_PAD);
             return (
-              <div key={ri} className={`cp-sched-row cp-sched-task${alt}`} style={{ height: rowH }}>
+              <div key={ri} className={`cp-sched-row cp-sched-task${alt}`} style={{ minHeight: rowH }}>
                 <div className="cp-sched-sticky" style={{ width: labelWidth }}>
                   {columns.map((c, ci) => (
-                    <div key={ci} className="cp-sched-cell" style={{ width: c.width }}>
+                    <div
+                      key={ci}
+                      className={`cp-sched-cell${c.wrap ? ' cp-sched-cell-wrap' : ''}`}
+                      style={{ width: c.width }}
+                    >
                       {r.cells?.[ci] ?? ''}
                     </div>
                   ))}
                 </div>
-                <div className="cp-sched-track" style={{ width: totalTrackWidth, height: rowH }}>
+                <div className="cp-sched-track" style={{ width: totalTrackWidth }}>
                   {months.map((m, i) => (
                     <div key={i} className="cp-gantt-gridline" style={{ left: i * MONTH_WIDTH }} />
                   ))}
@@ -160,17 +175,6 @@ export default function CriticalPathSchedule({ title, columns = [], rows = [], l
           })}
         </div>
       </div>
-
-      {legend.length > 0 && (
-        <div className="cp-gantt-legend">
-          {legend.map((l, i) => (
-            <span key={i} className="cp-gantt-legend-item">
-              <span className="cp-gantt-legend-dot" style={{ background: l.color }} />
-              {l.label}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

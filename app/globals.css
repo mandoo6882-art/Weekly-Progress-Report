@@ -146,11 +146,12 @@ tr.cp-band-row td {
 .cp-gantt-month {
   flex-shrink: 0;
   text-align: center;
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 700;
   color: #334155;
   padding: 6px 0;
   border-left: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
 .cp-gantt-row {
@@ -210,6 +211,11 @@ tr.cp-band-row td {
   padding-left: 4px;
 }
 
+.cp-gantt-legend-top {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
 .cp-gantt-legend-item {
   display: inline-flex;
   align-items: center;
@@ -232,6 +238,7 @@ tr.cp-band-row td {
 
 .cp-sched-scroll {
   overflow-x: auto;
+  overflow-y: auto;
   background: white;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -240,6 +247,7 @@ tr.cp-band-row td {
 
 .cp-sched-row {
   display: flex;
+  align-items: stretch;
   border-bottom: 1px solid #eef2f7;
 }
 
@@ -273,6 +281,17 @@ tr.cp-band-row td {
   border-right: 1px solid #f1f5f9;
 }
 
+/* Remark 등 줄바꿈이 필요한 열: 한 줄 말줄임 대신 셀 안에서 여러 줄로 접히도록 */
+.cp-sched-cell-wrap {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  align-items: flex-start;
+  line-height: 1.35;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
 .cp-sched-header-row {
   position: sticky;
   top: 0;
@@ -289,8 +308,10 @@ tr.cp-band-row td {
   font-weight: 700;
   color: #1e3a8a;
   border-right: 1px solid #93c5fd;
-  white-space: normal;
+  white-space: pre-line;
   line-height: 1.25;
+  text-align: center;
+  justify-content: center;
 }
 
 .cp-sched-track {
