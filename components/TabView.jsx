@@ -43,6 +43,23 @@ export default function TabView({ tabs }) {
 
       {data.title ? <h2 className="section-title">{data.title}</h2> : null}
 
+      {active.id === 'equipment-control' ? (
+        active.status_viewer_url ? (
+          <a
+            href={active.status_viewer_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="status-viewer-link"
+          >
+            Equipment Status 확인 →
+          </a>
+        ) : (
+          <p className="empty-inline" style={{ marginBottom: 16 }}>
+            Equipment Status Viewer 파일이 아직 업로드되지 않았습니다.
+          </p>
+        )
+      ) : null}
+
       {data.cutoffDate ? (
         <div className="cutoff-banner">Cut-off date: {data.cutoffDate}</div>
       ) : null}

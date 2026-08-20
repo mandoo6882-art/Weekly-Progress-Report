@@ -126,6 +126,34 @@ body {
   margin: 0 0 10px;
 }
 
+.status-viewer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 6px;
+  margin: 0 0 16px;
+}
+
+.status-viewer-link:hover {
+  background: #1d4ed8;
+}
+
+.status-viewer-panel {
+  margin-top: 16px;
+  background: #f9fafb;
+}
+
+.status-viewer-panel h3 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
 .cutoff-banner {
   display: inline-block;
   background: #eff6ff;

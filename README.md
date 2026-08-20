@@ -46,6 +46,20 @@ git push -u origin main
 3. 생성 후 **Connect to Project**를 눌러 방금 만든 프로젝트에 연결
    → `DATABASE_URL` 환경변수가 자동으로 추가됩니다.
 
+## 3-1. 파일 저장소 연결 (Vercel Blob) — Equipment Status Viewer용
+
+Tab 6(Equipment Control Register)의 "Equipment Status Viewer" HTML 파일(수 MB)을 매주
+업로드하려면 Vercel Blob 저장소가 필요합니다.
+
+1. 배포된 프로젝트 화면에서 **Storage** 탭 클릭
+2. **Create Database** → **Blob** 선택
+3. 생성 후 **Connect to Project**를 눌러 이 프로젝트에 연결
+   → `BLOB_READ_WRITE_TOKEN` 환경변수가 자동으로 추가됩니다.
+4. **Deployments → 최신 배포 → Redeploy** 로 다시 배포
+
+이 설정을 하지 않아도 나머지 탭(1~6번의 엑셀 데이터)은 정상 동작하며, Tab 6의
+"Equipment Status 확인" 버튼만 파일 업로드 전까지 비활성 상태로 보입니다.
+
 ## 4. 관리자 비밀번호 설정
 
 1. 프로젝트 **Settings → Environment Variables**로 이동
