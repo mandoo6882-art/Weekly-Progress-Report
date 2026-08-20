@@ -14,6 +14,18 @@ export async function POST(request) {
 
   const body = await request.json();
 
+  // handleUpload가 던지는 에러는 브라우저의 @vercel/blob 클라이언트가 자세한 내용 없이
+  // 뭉뚱그려버리므로, 가장 흔한 원인(토큰 미설정)은 여기서 먼저 명확하게 걸러낸다.
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      {
+        error:
+          'BLOB_READ_WRITE_TOKEN 환경변수가 없습니다. Vercel 프로젝트의 Storage 탭에서 Public Blob 저장소를 이 프로젝트에 연결했는지, 연결 후 Redeploy까지 했는지 확인해주세요.',
+      },
+      { status: 400 }
+    );
+  }
+
   try {
     const jsonResponse = await handleUpload({
       body,

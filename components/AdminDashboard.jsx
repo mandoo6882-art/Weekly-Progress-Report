@@ -51,6 +51,21 @@ function StatusViewerUpload({ tabId, initial }) {
       setStatus('uploading');
       setMessage('업로드하는 중입니다... (파일 용량에 따라 시간이 걸릴 수 있습니다)');
 
+      // @vercel/blob의 upload()는 토큰 발급이 실패해도 서버가 준 실제 이유를 숨기고
+      // 뭉뚱그린 메시지만 던지므로, 먼저 같은 요청을 직접 보내 실제 에러 메시지를 확인한다.
+      const preflight = await fetch('/api/admin/equipment-status/upload-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'blob.generate-client-token',
+          payload: { pathname: file.name, callbackUrl: '', clientPayload: null, multipart: false },
+        }),
+      });
+      if (!preflight.ok) {
+        const data = await preflight.json().catch(() => ({}));
+        throw new Error(data.error || `토큰 발급 실패 (HTTP ${preflight.status})`);
+      }
+
       const blob = await upload(file.name, file, {
         access: 'public',
         handleUploadUrl: '/api/admin/equipment-status/upload-token',
