@@ -129,15 +129,16 @@ body {
 .status-viewer-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #2563eb;
   color: white;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 9px 16px;
-  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 8px;
   margin: 0 0 16px;
+  white-space: nowrap;
 }
 
 .status-viewer-link:hover {
@@ -301,6 +302,9 @@ table.eqr-table {
   table-layout: fixed;
   font-size: 10px;
   width: 100%;
+  /* PC 화면 폭에서는 100%로 스크롤 없이 맞추고, 화면이 이보다 좁아지면(모바일 등)
+     열이 안 뭉개지고 대신 표 전체가 가로로 스크롤되도록 최소 폭을 둔다. */
+  min-width: 900px;
 }
 table.eqr-table td {
   padding: 3px 4px;

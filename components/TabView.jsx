@@ -51,7 +51,7 @@ export default function TabView({ tabs }) {
             rel="noopener noreferrer"
             className="status-viewer-link"
           >
-            Equipment Status 확인 →
+            Check the equipment status on the plot plan →
           </a>
         ) : (
           <p className="empty-inline" style={{ marginBottom: 16 }}>
