@@ -46,7 +46,7 @@ export default function TabView({ tabs }) {
       {active.id === 'equipment-control' ? (
         active.status_viewer_url ? (
           <a
-            href={active.status_viewer_url}
+            href="/api/equipment-status"
             target="_blank"
             rel="noopener noreferrer"
             className="status-viewer-link"
