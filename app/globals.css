@@ -110,6 +110,119 @@ body {
   overflow-x: auto;
 }
 
+/* Tab7 Critical Path: 구역(band) 제목 행 — 엑셀 원본처럼 전체 폭 병합 + 진한 배경 */
+tr.cp-band-row td {
+  background: #dbeafe !important;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.cp-gantt-wrap {
+  margin-bottom: 28px;
+}
+
+.cp-gantt-scroll {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.cp-gantt-header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.cp-gantt-corner {
+  flex-shrink: 0;
+  border-right: 1px solid #cbd5e1;
+}
+
+.cp-gantt-month {
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  padding: 6px 0;
+  border-left: 1px solid #e2e8f0;
+}
+
+.cp-gantt-row {
+  display: flex;
+  border-bottom: 1px solid #eef2f7;
+  align-items: stretch;
+}
+
+.cp-gantt-row:nth-child(even) {
+  background: #f8fafc;
+}
+
+.cp-gantt-heading {
+  background: #dbeafe !important;
+}
+
+.cp-gantt-label {
+  flex-shrink: 0;
+  font-size: 12px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e2e8f0;
+}
+
+.cp-gantt-heading .cp-gantt-label {
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.cp-gantt-track {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.cp-gantt-gridline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #f1f5f9;
+}
+
+.cp-gantt-bar {
+  position: absolute;
+  border-radius: 3px;
+}
+
+.cp-gantt-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #374151;
+  margin-top: 8px;
+  padding-left: 4px;
+}
+
+.cp-gantt-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cp-gantt-legend-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+
 .tab-meta {
   font-size: 12px;
   color: #6b7280;

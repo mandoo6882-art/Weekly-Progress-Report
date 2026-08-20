@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import DataTable from './DataTable';
 import TrendChart from './TrendChart';
 import GanttChart from './GanttChart';
+import CriticalPathGantt from './CriticalPathGantt';
 import { getTabConfig } from '../lib/tabConfig';
 
 export default function TabView({ tabs }) {
@@ -127,6 +128,13 @@ export default function TabView({ tabs }) {
           return (
             <div key={i} className="chart-box standalone-chart gantt-box">
               <GanttChart title={b.title} rows={b.rows} planLabel={b.planLabel} forecastLabel={b.forecastLabel} />
+            </div>
+          );
+        }
+        if (b.type === 'critical-path-gantt') {
+          return (
+            <div key={i} className="chart-box standalone-chart">
+              <CriticalPathGantt title={b.title} rows={b.rows} legend={b.legend} />
             </div>
           );
         }
