@@ -145,13 +145,27 @@ tr.cp-band-row td {
 
 .cp-gantt-month {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-size: 9.5px;
-  font-weight: 700;
   color: #334155;
-  padding: 6px 0;
+  padding: 4px 0;
   border-left: 1px solid #e2e8f0;
   overflow: hidden;
+  line-height: 1.15;
+}
+
+.cp-gantt-month-name {
+  font-size: 9.5px;
+  font-weight: 700;
+}
+
+.cp-gantt-month-year {
+  font-size: 8px;
+  color: #64748b;
+  font-weight: 600;
 }
 
 .cp-gantt-row {
@@ -200,6 +214,16 @@ tr.cp-band-row td {
 .cp-gantt-bar {
   position: absolute;
   border-radius: 3px;
+}
+
+/* Start 또는 Finish 중 하나만 있는 경우 그 날짜에 찍는 점(마름모) 마커 */
+.cp-gantt-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
 .cp-gantt-legend {
@@ -270,6 +294,7 @@ tr.cp-band-row td {
 }
 
 .cp-sched-cell {
+  position: relative;
   flex-shrink: 0;
   font-size: 11.5px;
   padding: 4px 8px;
@@ -279,6 +304,22 @@ tr.cp-band-row td {
   display: flex;
   align-items: center;
   border-right: 1px solid #f1f5f9;
+}
+
+/* 헤더 셀 오른쪽 끝의 드래그 손잡이: 마우스로 끌면 그 열의 폭을 조절할 수 있다 */
+.cp-col-resize {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  width: 7px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 5;
+}
+
+.cp-col-resize:hover,
+.cp-col-resize:active {
+  background: rgba(37, 99, 235, 0.35);
 }
 
 /* Remark 등 줄바꿈이 필요한 열: 한 줄 말줄임 대신 셀 안에서 여러 줄로 접히도록 */
@@ -295,11 +336,11 @@ tr.cp-band-row td {
 .cp-sched-header-row {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 6;
 }
 
 .cp-sched-head {
-  z-index: 4;
+  z-index: 7;
   background: #dbeafe;
   border-right: 2px solid #93c5fd;
 }
