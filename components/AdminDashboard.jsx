@@ -5,6 +5,24 @@ import { upload } from '@vercel/blob/client';
 import { TAB_CONFIGS } from '../lib/tabConfig';
 import { validateFile, parseTabFile } from '../lib/excel';
 
+// 파일명 앞부분("Equipment_Status_Viewer")만 같으면 인식합니다. 뒤에 버전/날짜가
+// 붙어 매주 이름이 바뀌어도(예: Equipment_Status_Viewer_v02.html) 그대로 인식됩니다.
+const STATUS_VIEWER_PREFIX = 'equipment_status_viewer';
+
+function validateStatusViewerFile(file) {
+  const nameLower = file.name.toLowerCase().replace(/\s+/g, '_');
+  if (!nameLower.startsWith(STATUS_VIEWER_PREFIX)) {
+    return {
+      ok: false,
+      error: `파일명이 "Equipment_Status_Viewer"로 시작해야 합니다.\n(예: Equipment_Status_Viewer_v02.html)`,
+    };
+  }
+  if (!nameLower.endsWith('.html') && !nameLower.endsWith('.htm')) {
+    return { ok: false, error: '파일 확장자는 .html 이어야 합니다.' };
+  }
+  return { ok: true };
+}
+
 // Equipment Control Register 탭 전용: 별도 프로젝트에서 만든 Equipment Status Viewer
 // HTML 파일을 매주 업로드/갱신하기 위한 UI. 엑셀 업로드와는 완전히 별개로 동작하며,
 // 파일이 커서(수 MB) 서버를 거치지 않고 브라우저에서 Vercel Blob으로 직접 올린다.
@@ -21,6 +39,13 @@ function StatusViewerUpload({ tabId, initial }) {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
+
+    const v = validateStatusViewerFile(file);
+    if (!v.ok) {
+      setStatus('error');
+      setMessage(v.error);
+      return;
+    }
 
     try {
       setStatus('uploading');
@@ -45,8 +70,15 @@ function StatusViewerUpload({ tabId, initial }) {
       setMessage('업로드 완료.');
       setMeta({ url: blob.url, fileName: file.name, updatedAt: new Date().toISOString() });
     } catch (err) {
+      // @vercel/blob 클라이언트는 토큰 발급이 실패하면 자세한 이유 없이 이 일반 메시지만
+      // 던집니다. 대부분 Blob 저장소 연결이 안 되어 있거나(BLOB_READ_WRITE_TOKEN 없음)
+      // 연결 후 재배포를 하지 않은 경우이므로, 원인을 바로 알 수 있게 힌트를 덧붙입니다.
+      const raw = err.message || '업로드 중 오류가 발생했습니다.';
+      const hint = /retrieve the client token/i.test(raw)
+        ? '\n(Vercel 프로젝트 Storage 탭에서 Blob 저장소를 연결했는지, 연결 후 재배포(Redeploy)까지 했는지 확인해주세요.)'
+        : '';
       setStatus('error');
-      setMessage(err.message || '업로드 중 오류가 발생했습니다.');
+      setMessage(raw + hint);
     }
   }
 
