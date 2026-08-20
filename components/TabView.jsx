@@ -5,6 +5,7 @@ import DataTable from './DataTable';
 import TrendChart from './TrendChart';
 import GanttChart from './GanttChart';
 import CriticalPathGantt from './CriticalPathGantt';
+import CriticalPathSchedule from './CriticalPathSchedule';
 import { getTabConfig } from '../lib/tabConfig';
 
 export default function TabView({ tabs }) {
@@ -136,6 +137,17 @@ export default function TabView({ tabs }) {
             <div key={i} className="chart-box standalone-chart">
               <CriticalPathGantt title={b.title} rows={b.rows} legend={b.legend} />
             </div>
+          );
+        }
+        if (b.type === 'critical-path-schedule') {
+          return (
+            <CriticalPathSchedule
+              key={i}
+              title={b.title}
+              columns={b.columns}
+              rows={b.rows}
+              legend={b.legend}
+            />
           );
         }
         return (
