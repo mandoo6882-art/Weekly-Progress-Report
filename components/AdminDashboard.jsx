@@ -194,7 +194,8 @@ function TabCard({ cfg, initial }) {
   return (
     <section className="panel">
       <h2>
-        Tab {cfg.tabNumber}. {cfg.name}
+        Tab {cfg.tabNumber}
+        {cfg.groupLabel ? ` (${cfg.groupLabel})` : ''}. {cfg.name}
       </h2>
       <p className="hint">
         파일명은 <code>{cfg.filePrefix}</code> 로 시작해야 합니다.
