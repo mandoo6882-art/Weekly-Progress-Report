@@ -70,7 +70,9 @@ export default function DataTable({
     if (leadingColWidths.length > 0) {
       if (ci < leadingColWidths.length) {
         const w = leadingColWidths[ci];
-        return { width: w, minWidth: w, maxWidth: w, whiteSpace: 'normal', overflow: 'hidden' };
+        // nowrap + overflow:visible: 숫자나 설명이 폭보다 살짝 길어도 잘리지 않고 그대로
+        // 보이도록 한다(폭 자체를 내용에 맞게 넉넉히 잡는 게 우선이고, 이건 안전장치).
+        return { width: w, minWidth: w, maxWidth: 'none', whiteSpace: 'nowrap', overflow: 'visible' };
       }
       const leadSum = leadingColWidths.reduce((s, w) => s + w, 0);
       const totalCols = rows[0]?.length || leadingColWidths.length + 1;
