@@ -121,7 +121,14 @@ export default function TabView({ tabs }) {
         if (b.type === 'chart') {
           return (
             <div key={i} className="chart-box standalone-chart">
-              <TrendChart title={b.title} categories={b.categories} series={b.series} format={b.format || 'percent'} />
+              <TrendChart
+                title={b.title}
+                categories={b.categories}
+                series={b.series}
+                format={b.format || 'percent'}
+                gutterLeft={b.gutterLeft}
+                gutterRight={b.gutterRight}
+              />
             </div>
           );
         }
@@ -166,6 +173,8 @@ export default function TabView({ tabs }) {
             colMaxWidths={b.colMaxWidths || {}}
             wrapColWidths={b.wrapColWidths || {}}
             scrollHeight={b.scrollHeight ?? null}
+            leadingColWidths={b.leadingColWidths || []}
+            gutterRight={b.gutterRight ?? 0}
           />
         );
       })}

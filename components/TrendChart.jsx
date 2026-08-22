@@ -30,7 +30,10 @@ ChartJS.register(
 
 const COLORS = ['#3b82f6', '#f59e0b', '#ef4444', '#10b981'];
 
-export default function TrendChart({ title, categories, series, format = 'percent' }) {
+// gutterLeft/gutterRight: 아래에 나오는 표(DataTable)의 leadingColWidths/gutterRight와 반드시
+// 같은 값을 써야 합니다 — 차트의 y축 폭(afterFit으로 고정)과 표의 라벨 열 폭을 똑같이 맞춰서,
+// 차트의 각 카테고리(날짜) 중심과 표의 해당 날짜 열이 세로로 나란히 정렬되게 하기 위함입니다.
+export default function TrendChart({ title, categories, series, format = 'percent', gutterLeft = 60, gutterRight = 64 }) {
   if (!categories?.length || !series?.length) return null;
 
   const formatValue = (v) => {
@@ -73,6 +76,9 @@ export default function TrendChart({ title, categories, series, format = 'percen
       y: {
         type: 'linear',
         position: 'left',
+        afterFit: (scale) => {
+          scale.width = gutterLeft;
+        },
         ticks: {
           callback: (v) => formatValue(v),
           font: { size: 10 },
@@ -84,6 +90,9 @@ export default function TrendChart({ title, categories, series, format = 'percen
             y1: {
               type: 'linear',
               position: 'right',
+              afterFit: (scale) => {
+                scale.width = gutterRight;
+              },
               ticks: {
                 callback: (v) => formatValue(v),
                 font: { size: 10 },
@@ -95,6 +104,9 @@ export default function TrendChart({ title, categories, series, format = 'percen
         : {}),
       x: { ticks: { font: { size: 10 } } },
     },
+    // 오른쪽 보조축(y1)이 없는 차트(예: Variance 단독 차트)도, 짝을 이루는 다른 차트/표와
+    // 오른쪽 끝이 같은 위치에서 끝나도록 같은 폭만큼 오른쪽 여백을 비워둔다.
+    layout: useDualAxis ? undefined : { padding: { right: gutterRight } },
   };
 
   const chartHeight = hasBar ? 260 : 130; // 콤보(막대 포함) 차트는 원래 크기, Variance 단독 차트만 절반 크기

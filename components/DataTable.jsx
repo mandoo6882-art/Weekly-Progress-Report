@@ -40,6 +40,8 @@ export default function DataTable({
   colMaxWidths = {},
   wrapColWidths = {},
   scrollHeight = null,
+  leadingColWidths = [],
+  gutterRight = 0,
 }) {
   const [selected, setSelected] = useState('ALL');
 
@@ -61,6 +63,27 @@ export default function DataTable({
   const narrowSet = new Set(narrowCols);
   const wideSet = new Set(wideCols);
   function colStyle(ci) {
+    // leadingColWidths: 위에 있는 차트(TrendChart)와 x축(날짜) 위치를 맞추기 위한 정렬 모드.
+    // 앞쪽 leadingColWidths.length개 열(라벨/요약 열)은 차트의 y축 폭과 똑같은 고정 px 폭으로,
+    // 나머지 날짜 열들은 "(표 전체 폭 - 라벨 열 폭 합) ÷ 날짜 열 개수"로 똑같이 나눠서, 차트가
+    // afterFit으로 고정한 y축 폭과 정확히 일치시킵니다(오른쪽 여백은 gutterRight로 별도 확보).
+    if (leadingColWidths.length > 0) {
+      if (ci < leadingColWidths.length) {
+        const w = leadingColWidths[ci];
+        return { width: w, minWidth: w, maxWidth: w, whiteSpace: 'normal', overflow: 'hidden' };
+      }
+      const leadSum = leadingColWidths.reduce((s, w) => s + w, 0);
+      const totalCols = rows[0]?.length || leadingColWidths.length + 1;
+      const dateColCount = Math.max(totalCols - leadingColWidths.length, 1);
+      return {
+        width: `calc((100% - ${leadSum}px) / ${dateColCount})`,
+        minWidth: 0,
+        maxWidth: 'none',
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+        overflow: 'visible',
+      };
+    }
     // colMaxWidths: 줄바꿈 없이 한 줄로 보여주되(내용이 길면 표 전체가 넓어져서
     // 가로 스크롤이 생기도록) 지정한 폭만큼은 확실히 확보합니다(width/minWidth).
     if (colMaxWidths[ci] !== undefined) {
@@ -84,6 +107,17 @@ export default function DataTable({
     return cellText(row[filterColumn], mergeMode) === selected;
   });
 
+  // 정렬 모드(leadingColWidths)에서는 table-layout:fixed + calc()로 폭을 강제하므로,
+  // 화면이 좁아져도 날짜 열이 읽을 수 없을 만큼 눌리지 않도록 최소 폭을 확보해 그 아래로는
+  // (기존 다른 표들처럼) 표 전체가 가로 스크롤되게 한다.
+  let alignMinWidth;
+  if (leadingColWidths.length > 0) {
+    const leadSum = leadingColWidths.reduce((s, w) => s + w, 0);
+    const totalCols = rows[0]?.length || leadingColWidths.length + 1;
+    const dateColCount = Math.max(totalCols - leadingColWidths.length, 1);
+    alignMinWidth = leadSum + dateColCount * 62;
+  }
+
   return (
     <div className="data-table-block">
       {(title || filterOptions.length > 1) && (
@@ -106,9 +140,15 @@ export default function DataTable({
       )}
       <div
         className={`table-wrap${scrollHeight ? ' has-scroll' : ''}`}
-        style={scrollHeight ? { maxHeight: scrollHeight, overflowY: 'auto' } : undefined}
+        style={{
+          ...(scrollHeight ? { maxHeight: scrollHeight, overflowY: 'auto' } : {}),
+          ...(gutterRight ? { paddingRight: gutterRight } : {}),
+        }}
       >
-        <table className={tableClassName || undefined}>
+        <table
+          className={tableClassName || undefined}
+          style={leadingColWidths.length > 0 ? { tableLayout: 'fixed', minWidth: alignMinWidth } : undefined}
+        >
           {colWidths.length > 0 && (
             <colgroup>
               {colWidths.map((w, i) => (

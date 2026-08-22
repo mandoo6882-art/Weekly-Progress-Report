@@ -653,7 +653,9 @@ tbody tr:not(.header-row):hover td {
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 12px;
+  /* 좌우 패딩은 0으로: 아래 표(DataTable)와 좌우 박스모델(테두리 폭)을 똑같이 맞춰야
+     차트의 카테고리(날짜) 위치와 표의 날짜 열이 정확히 세로로 정렬된다. */
+  padding: 12px 0;
 }
 
 .empty {
